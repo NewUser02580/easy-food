@@ -13,7 +13,14 @@ const port = 4000
 
 // middleware
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: [
+      "http://localhost:5173",
+      "https://easy-food-blond.vercel.app"
+    ],
+    credentials: true,
+  }
+));
 
 //db connection
 connectDB();
