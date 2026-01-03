@@ -17,6 +17,7 @@ app.use(cors({
     origin: [
       "http://localhost:5173",
       "https://easy-food-blond.vercel.app"
+      "https://easy-food-73tr.vercel.app" 
     ],
     credentials: true,
   }
