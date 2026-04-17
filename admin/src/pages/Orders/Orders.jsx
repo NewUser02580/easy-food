@@ -19,7 +19,6 @@ const Orders = ({ url }) => {
       headers: { token },
     });
     if (response.data.success) {
-      // ✅ Filter out delivered orders for display only
       const activeOrders = response.data.data.filter(
         (order) => order.status !== "Delivered"
       );
