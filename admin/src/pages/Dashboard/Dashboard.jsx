@@ -3,9 +3,6 @@ import axios from "axios";
 import { StoreContext } from "../../context/StoreContext";
 import "./Dashboard.css";
 
-const [todayOrders, setTodayOrders] = useState(0);
-const [avgOrderValue, setAvgOrderValue] = useState(0);
-
 const Dashboard = ({ url }) => {
   const { token } = useContext(StoreContext);
 
@@ -13,7 +10,8 @@ const Dashboard = ({ url }) => {
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [todayRevenue, setTodayRevenue] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
-
+  const [todayOrders, setTodayOrders] = useState(0);
+  const [avgOrderValue, setAvgOrderValue] = useState(0);
   const fetchOrders = async () => {
     const response = await axios.get(url + "/api/order/list", {
       headers: { token },
@@ -31,7 +29,7 @@ const Dashboard = ({ url }) => {
       data.forEach((order) => {
         total += order.amount;
 
-        const orderDate = new Date(order.createdAt).toDateString();
+        const orderDate = new Date(order.date).toDateString();
         if (orderDate === todayDate) {
           today += order.amount;
         }
