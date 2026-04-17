@@ -19,7 +19,11 @@ const Orders = ({ url }) => {
       headers: { token },
     });
     if (response.data.success) {
-      setOrders(response.data.data);
+      // ✅ Filter out delivered orders for display only
+      const activeOrders = response.data.data.filter(
+        (order) => order.status !== "Delivered"
+      );
+      setOrders(activeOrders);
     }
   };
 
@@ -39,6 +43,7 @@ const Orders = ({ url }) => {
       toast.error(response.data.message);
     }
   };
+
   useEffect(() => {
     if (!admin && !token) {
       toast.error("Please Login First");
