@@ -81,19 +81,16 @@ const userOrders = async (req, res) => {
   }
 };
 
-// Listing orders for admin pannel
+// Listing orders for admin panel - fetch ALL orders so dashboard revenue is accurate
 const listOrders = async (req, res) => {
   try {
-      const orders = await orderModel.find({
-        status: { $ne: "Delivered" }
-      });
-      res.json({success:true,data:orders})
+    const orders = await orderModel.find({});  // ✅ removed Delivered filter
+    res.json({ success: true, data: orders });
   } catch (error) {
     console.log(error);
-    res.json({success:false,message:"Error"})
-    
+    res.json({ success: false, message: "Error" });
   }
-}
+};
 
 // api for updating status
 const updateStatus = async (req, res) => {
@@ -108,7 +105,7 @@ const updateStatus = async (req, res) => {
         { new: true }
       );
       res.json({ success: true, message: "Status Updated Successfully" });
-    }else{
+    } else {
       res.json({ success: false, message: "You are not an admin" });
     }
   } catch (error) {
