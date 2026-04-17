@@ -28,19 +28,20 @@ const Dashboard = ({ url }) => {
 
         const todayDate = new Date().toISOString().slice(0, 10);
 
-        data.forEach((order) => {
-        if (order.payment === true) {
-            total += order.amount;
-            validOrders++;
+data.forEach((order) => {
+  if (order.payment === true) {
+    total += order.amount;
+    validOrders++;
 
-            const orderDate = new Date(order.date).toISOString().slice(0, 10);
+    const todayDate = new Date().toISOString().slice(0, 10);
+    const orderDate = new Date(order.date).toISOString().slice(0, 10);
 
-            if (orderDate === todayDate) {
-            today += order.amount;
-            todayCount++;
-            }
-        }
-        });
+    if (orderDate === todayDate) {
+      today += order.amount;
+      todayCount++;
+    }
+  }
+});
         setTotalRevenue(total);
         setTodayRevenue(today);
         setTotalOrders(validOrders);
