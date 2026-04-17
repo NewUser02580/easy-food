@@ -30,7 +30,7 @@ const Dashboard = ({ url }) => {
         total += order.amount;
 
         const orderDate = new Date(order.date).toDateString();
-        if (orderDate === todayDate) {
+        if (order.payment) {
           today += order.amount;
         }
       });
