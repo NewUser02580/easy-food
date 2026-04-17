@@ -100,9 +100,13 @@ const updateStatus = async (req, res) => {
   try {
     let userData = await userModel.findById(req.body.userId);
     if (userData && userData.role === "admin") {
-      await orderModel.findByIdAndUpdate(req.body.orderId, {
-        status: req.body.status,
-      });
+      await orderModel.findByIdAndUpdate(
+        req.body.orderId,
+        {
+          $set: { status: req.body.status },
+        },
+        { new: true }
+      );
       res.json({ success: true, message: "Status Updated Successfully" });
     }else{
       res.json({ success: false, message: "You are not an admin" });
