@@ -21,23 +21,29 @@ const Dashboard = ({ url }) => {
       const data = response.data.data;
       setOrders(data);
 
-      let total = 0;
-      let today = 0;
+        let total = 0;
+        let today = 0;
+        let todayCount = 0;
+        let validOrders = 0;
 
-      const todayDate = new Date().toDateString();
+        const todayDate = new Date().toISOString().slice(0, 10);
 
-      data.forEach((order) => {
-        total += order.amount;
+        data.forEach((order) => {
+        if (order.payment === true) {
+            total += order.amount;
+            validOrders++;
 
-        const orderDate = new Date(order.date).toDateString();
-        if (order.payment) {
-          today += order.amount;
+            const orderDate = new Date(order.date).toISOString().slice(0, 10);
+
+            if (orderDate === todayDate) {
+            today += order.amount;
+            todayCount++;
+            }
         }
-      });
-
-      setTotalRevenue(total);
-      setTodayRevenue(today);
-      setTotalOrders(data.length);
+        });
+        setTotalRevenue(total);
+        setTodayRevenue(today);
+        setTotalOrders(validOrders);
     }
   };
 
