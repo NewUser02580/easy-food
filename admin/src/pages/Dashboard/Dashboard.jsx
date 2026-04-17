@@ -21,19 +21,18 @@ const Dashboard = ({ url }) => {
       const data = response.data.data;
       setOrders(data);
 
-        let total = 0;
-        let today = 0;
-        let todayCount = 0;
-        let validOrders = 0;
+let total = 0;
+let today = 0;
+let todayCount = 0;
+let validOrders = 0;
 
-        const todayDate = new Date().toISOString().slice(0, 10);
+const todayDate = new Date().toISOString().slice(0, 10);
 
 data.forEach((order) => {
   if (order.payment === true) {
     total += order.amount;
     validOrders++;
 
-    const todayDate = new Date().toISOString().slice(0, 10);
     const orderDate = new Date(order.date).toISOString().slice(0, 10);
 
     if (orderDate === todayDate) {
@@ -42,9 +41,12 @@ data.forEach((order) => {
     }
   }
 });
-        setTotalRevenue(total);
-        setTodayRevenue(today);
-        setTotalOrders(validOrders);
+
+setTotalRevenue(total);
+setTodayRevenue(today);
+setTotalOrders(validOrders);
+setTodayOrders(todayCount);
+setAvgOrderValue(validOrders ? (total / validOrders).toFixed(2) : 0);
     }
   };
 
