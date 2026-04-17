@@ -3,6 +3,9 @@ import axios from "axios";
 import { StoreContext } from "../../context/StoreContext";
 import "./Dashboard.css";
 
+const [todayOrders, setTodayOrders] = useState(0);
+const [avgOrderValue, setAvgOrderValue] = useState(0);
+
 const Dashboard = ({ url }) => {
   const { token } = useContext(StoreContext);
 
@@ -10,8 +13,6 @@ const Dashboard = ({ url }) => {
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [todayRevenue, setTodayRevenue] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
-  const [todayOrders, setTodayOrders] = useState(0);
-  const [avgOrderValue, setAvgOrderValue] = useState(0);
 
   const fetchOrders = async () => {
     const response = await axios.get(url + "/api/order/list", {
@@ -24,33 +25,21 @@ const Dashboard = ({ url }) => {
 
       let total = 0;
       let today = 0;
-      let todayCount = 0;
-      let validOrders = 0;
 
       const todayDate = new Date().toDateString();
 
       data.forEach((order) => {
-        // ✅ Only count paid + delivered orders
-        if (order.payment && order.status === "Delivered") {
-          total += order.amount;
-          validOrders++;
+        total += order.amount;
 
-          const orderDate = new Date(order.date).toDateString();
-
-          if (orderDate === todayDate) {
-            today += order.amount;
-            todayCount++;
-          }
+        const orderDate = new Date(order.createdAt).toDateString();
+        if (orderDate === todayDate) {
+          today += order.amount;
         }
       });
 
       setTotalRevenue(total);
       setTodayRevenue(today);
-      setTotalOrders(validOrders);
-      setTodayOrders(todayCount);
-
-      // ✅ Average Order Value
-      setAvgOrderValue(validOrders ? (total / validOrders).toFixed(2) : 0);
+      setTotalOrders(data.length);
     }
   };
 
@@ -76,16 +65,6 @@ const Dashboard = ({ url }) => {
         <div className="card">
           <h3>Today’s Revenue</h3>
           <p>₹{todayRevenue}</p>
-        </div>
-
-        <div className="card">
-          <h3>Orders Today</h3>
-          <p>{todayOrders}</p>
-        </div>
-
-        <div className="card">
-          <h3>Avg Order Value</h3>
-          <p>₹{avgOrderValue}</p>
         </div>
       </div>
     </div>
