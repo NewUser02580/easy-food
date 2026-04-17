@@ -29,6 +29,7 @@ let validOrders = 0;
 const todayDate = new Date().toISOString().slice(0, 10);
 
 data.forEach((order) => {
+   console.log(order.status, order.payment, order.amount); // 👈 add this
   if (order.payment === true) {
     total += order.amount;
     validOrders++;
