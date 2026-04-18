@@ -18,3 +18,5 @@ foodRouter.post("/add", authMiddleware, upload.single("image"), addFood);
 foodRouter.get("/list", listFood);
 foodRouter.post("/remove", authMiddleware, removeFood);
 foodRouter.post("/edit", authMiddleware, upload.single("image"), editFood); // ✅ new
+
+export default foodRouter;
