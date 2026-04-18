@@ -2,7 +2,6 @@ import foodModel from "../models/foodModel.js";
 import userModel from "../models/userModel.js";
 import fs from "fs";
 
-// add food items
 const addFood = async (req, res) => {
   let image_filename = `${req.file.filename}`;
   const food = new foodModel({
@@ -13,7 +12,7 @@ const addFood = async (req, res) => {
     image: image_filename,
   });
   try {
-    let userData = await userModel.findById(req.body.userId);
+    let userData = await userModel.findById(req.userId);
     if (userData && userData.role === "admin") {
       await food.save();
       res.json({ success: true, message: "Food Added" });
@@ -26,7 +25,6 @@ const addFood = async (req, res) => {
   }
 };
 
-// all foods
 const listFood = async (req, res) => {
   try {
     const foods = await foodModel.find({});
@@ -37,10 +35,9 @@ const listFood = async (req, res) => {
   }
 };
 
-// remove food item
 const removeFood = async (req, res) => {
   try {
-    let userData = await userModel.findById(req.body.userId);
+    let userData = await userModel.findById(req.userId);
     if (userData && userData.role === "admin") {
       const food = await foodModel.findById(req.body.id);
       fs.unlink(`uploads/${food.image}`, () => {});
@@ -55,36 +52,31 @@ const removeFood = async (req, res) => {
   }
 };
 
-// ✅ edit food item
 const editFood = async (req, res) => {
   try {
-    let userData = await userModel.findById(req.body.userId);
+    let userData = await userModel.findById(req.userId);
     if (userData && userData.role === "admin") {
       const food = await foodModel.findById(req.body.id);
       if (!food) {
         return res.json({ success: false, message: "Food not found" });
       }
-
       const updatedData = {
         name: req.body.name,
         description: req.body.description,
-        price: req.body.price,
+        price: Number(req.body.price),
         category: req.body.category,
       };
-
-      // if new image uploaded, replace old one
       if (req.file) {
         fs.unlink(`uploads/${food.image}`, () => {});
         updatedData.image = req.file.filename;
       }
-
       await foodModel.findByIdAndUpdate(req.body.id, updatedData);
       res.json({ success: true, message: "Food Updated" });
     } else {
       res.json({ success: false, message: "You are not admin" });
     }
   } catch (error) {
-    console.log(error);
+    console.log("editFood error:", error);
     res.json({ success: false, message: "Error" });
   }
 };
