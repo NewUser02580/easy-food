@@ -37,11 +37,19 @@ const listFood = async (req, res) => {
 
 const removeFood = async (req, res) => {
   try {
-    let userData = await userModel.findById(req.body.userId);
+    let userData = await userModel.findById(req.userId);
+
     if (userData && userData.role === "admin") {
       const food = await foodModel.findById(req.body.id);
-      fs.unlink(`uploads/${food.image}`, () => {});
+
+      if (food.image) {
+        fs.unlink(`.${food.image}`, (err) => {
+          if (err) console.log(err.message);
+        });
+      }
+
       await foodModel.findByIdAndDelete(req.body.id);
+
       res.json({ success: true, message: "Food Removed" });
     } else {
       res.json({ success: false, message: "You are not admin" });
@@ -54,27 +62,46 @@ const removeFood = async (req, res) => {
 
 const editFood = async (req, res) => {
   try {
-    console.log("editFood called, userId:", req.userId, "body:", req.body);
     let userData = await userModel.findById(req.userId);
+
     if (userData && userData.role === "admin") {
+
       const food = await foodModel.findById(req.body.id);
+
       if (!food) {
         return res.json({ success: false, message: "Food not found" });
       }
+
+      // 🧠 Prepare updated data
       const updatedData = {
         name: req.body.name,
         description: req.body.description,
         price: Number(req.body.price),
         category: req.body.category,
       };
+
+      // 🔥 If new image is uploaded
+      if (req.file) {
+        const fs = await import("fs");
+
+        // delete old image
+        fs.unlink(`uploads/${food.image}`, () => {});
+
+        // save new image
+        updatedData.image = req.file.filename;
+      }
+
       await foodModel.findByIdAndUpdate(req.body.id, updatedData);
+
       res.json({ success: true, message: "Food Updated" });
+
     } else {
       res.json({ success: false, message: "You are not admin" });
     }
+
   } catch (error) {
-    console.log("editFood error:", error.message);
-    res.json({ success: false, message: error.message });
+    console.log(error);
+    res.json({ success: false, message: "Error" });
   }
 };
 
