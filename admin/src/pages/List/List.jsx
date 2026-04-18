@@ -114,7 +114,7 @@ const List = ({ url }) => {
         </div>
         {list.map((item, index) => (
           <div key={index} className="list-table-format">
-            <img src={`${url}/uploads/` + item.image} alt="" />
+            <img src={item.image.startsWith("http") ? item.image : `${url}/uploads/` + item.image} alt="" />
             <p>{item.name}</p>
             <p>{item.category}</p>
             <p>₹{item.price}</p>
@@ -138,7 +138,7 @@ const List = ({ url }) => {
             <div className="modal-body">
               <div className="edit-image-section">
                 <img
-                  src={editPreview || `${url}/uploads/${editItem.image}`}
+                  src={editPreview || (editItem.image.startsWith("http") ? editItem.image : `${url}/uploads/${editItem.image}`)}
                   alt=""
                   className="edit-preview"
                 />
