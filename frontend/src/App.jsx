@@ -12,18 +12,17 @@ import Verify from "./pages/Verify/Verify";
 import MyOrders from "./pages/MyOrders/MyOrders";
 
 const App = () => {
-
-  const [showLogin,setShowLogin] = useState(false)
-
+  const [showLogin, setShowLogin] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
 
   return (
     <>
-    {showLogin?<LoginPopup setShowLogin={setShowLogin} />:<></>}
+      {showLogin && <LoginPopup setShowLogin={setShowLogin} />}
       <div className='app'>
         <ToastContainer />
-        <Navbar setShowLogin={setShowLogin} />
-        < Routes>
-          < Route path='/' element={<Home />} />
+        <Navbar setShowLogin={setShowLogin} setSearchQuery={setSearchQuery} />
+        <Routes>
+          <Route path='/' element={<Home searchQuery={searchQuery} />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/order' element={<PlaceOrder />} />
           <Route path="/verify" element={<Verify />} />
@@ -32,7 +31,7 @@ const App = () => {
       </div>
       <Footer />
     </>
-  );
-};
+  )
+}
 
 export default App
