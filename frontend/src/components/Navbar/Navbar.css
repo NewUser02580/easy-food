@@ -15,7 +15,7 @@
 }
 
 /* Logo */
-.navbar .logo { width: 140px; flex-shrink: 0; }
+.navbar .logo { width: 140px }
 
 /* Nav links */
 .navbar-menu {
