@@ -1,6 +1,5 @@
 .navbar {
   position: relative;
-  top: 0;
   z-index: 200;
   height: var(--nav-height);
   display: flex;
@@ -168,14 +167,66 @@
   margin: 3px 0;
 }
 
-/* Responsive */
+/* ── Tablet (≤ 900px) ── */
 @media (max-width: 900px) {
-  .navbar { padding: 0 24px; }
+  .navbar {
+    padding: 0 24px;
+    height: 64px;
+  }
   .navbar-menu { gap: 20px; font-size: 13px; }
   .navbar .logo { width: 110px; }
+  .navbar button { padding: 8px 18px; font-size: 12px; }
 }
 
+/* ── Large Mobile (≤ 720px) ── */
 @media (max-width: 720px) {
+  .navbar {
+    padding: 0 20px;
+    height: 60px;
+  }
   .navbar-menu { display: none; }
-  .navbar-search-input { width: 140px; }
+  .navbar-search-input { width: 140px; font-size: 12px; }
+  .navbar .logo { width: 100px; }
+}
+
+/* ── Small Mobile (≤ 480px) ── */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0 16px;
+    height: 56px;
+    gap: 10px;
+  }
+  .navbar .logo { width: 90px; }
+
+  /* Collapse search input on very small screens */
+  .navbar-search-input { width: 110px; padding: 7px 10px; font-size: 12px; }
+
+  /* Tighten right cluster */
+  .navbar-right { gap: 8px; }
+  .nav-icon { width: 18px; height: 18px; }
+
+  /* Make Sign In button compact */
+  .navbar button {
+    padding: 7px 14px;
+    font-size: 12px;
+    border-radius: 20px;
+  }
+
+  /* Profile dropdown — anchor to right edge cleanly */
+  .navbar-profile-dropdown {
+    right: -8px;
+    min-width: 140px;
+  }
+  .navbar-profile-dropdown li {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+}
+
+/* ── Extra Small (≤ 360px) ── */
+@media (max-width: 360px) {
+  .navbar { padding: 0 12px; }
+  .navbar .logo { width: 80px; }
+  .navbar-search-input { width: 90px; }
+  .navbar button { padding: 6px 12px; font-size: 11px; }
 }
