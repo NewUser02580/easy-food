@@ -1,18 +1,19 @@
 import foodModel from "../models/foodModel.js";
 import userModel from "../models/userModel.js";
-import { cloudinary } from "../config/cloudinary.js";
+import fs from "fs";
 
 const addFood = async (req, res) => {
+  let image_filename = `${req.file.filename}`;
+  const food = new foodModel({
+    name: req.body.name,
+    description: req.body.description,
+    price: req.body.price,
+    category: req.body.category,
+    image: image_filename,
+  });
   try {
     let userData = await userModel.findById(req.userId);
     if (userData && userData.role === "admin") {
-      const food = new foodModel({
-        name: req.body.name,
-        description: req.body.description,
-        price: req.body.price,
-        category: req.body.category,
-        image: req.file.path, // ✅ Cloudinary returns full URL in path
-      });
       await food.save();
       res.json({ success: true, message: "Food Added" });
     } else {
@@ -39,11 +40,7 @@ const removeFood = async (req, res) => {
     let userData = await userModel.findById(req.userId);
     if (userData && userData.role === "admin") {
       const food = await foodModel.findById(req.body.id);
-      // delete from cloudinary
-      if (food.image && food.image.includes("cloudinary")) {
-        const publicId = food.image.split("/").pop().split(".")[0];
-        await cloudinary.uploader.destroy(`easyfood/${publicId}`);
-      }
+      fs.unlink(`uploads/${food.image}`, () => {});
       await foodModel.findByIdAndDelete(req.body.id);
       res.json({ success: true, message: "Food Removed" });
     } else {
@@ -70,12 +67,8 @@ const editFood = async (req, res) => {
         category: req.body.category,
       };
       if (req.file) {
-        // delete old image from cloudinary
-        if (food.image && food.image.includes("cloudinary")) {
-          const publicId = food.image.split("/").pop().split(".")[0];
-          await cloudinary.uploader.destroy(`easyfood/${publicId}`);
-        }
-        updatedData.image = req.file.path;
+        fs.unlink(`uploads/${food.image}`, () => {});
+        updatedData.image = req.file.filename;
       }
       await foodModel.findByIdAndUpdate(req.body.id, updatedData);
       res.json({ success: true, message: "Food Updated" });
