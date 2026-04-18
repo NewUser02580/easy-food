@@ -20,37 +20,38 @@ const MyOrders = () => {
   };
 
   useEffect(() => {
-    if (token) {
-      fetchOrders();
-    }
+    if (token) fetchOrders();
   }, [token]);
+
+  const getDotClass = (status) => {
+    if (status === "Delivered") return "dot dot-delivered";
+    if (status === "Out for delivery") return "dot dot-out";
+    return "dot dot-processing";
+  };
+
   return (
     <div className="my-orders">
-      <h2>Orders</h2>
+      <h2>My Orders</h2>
       <div className="container">
-        {data.map((order, index) => {
-          return (
-            <div key={index} className="my-orders-order">
-              <img src={assets.parcel_icon} alt="" />
-              <p>
-                {order.items.map((item, index) => {
-                  if (index === order.items.length - 1) {
-                    return item.name + " X " + item.quantity;
-                  } else {
-                    return item.name + " X " + item.quantity + ",";
-                  }
-                })}
-              </p>
-              <p>₹{order.amount}.00</p>
-              <p>items: {order.items.length}</p>
-              <p>
-                <span>&#x25cf;</span>
-                <b> {order.status}</b>
-              </p>
-              <button onClick={fetchOrders}>Track Order</button>
-            </div>
-          );
-        })}
+        {data.map((order, index) => (
+          <div key={index} className="my-orders-order">
+            <img src={assets.parcel_icon} alt="" />
+            <p>
+              {order.items.map((item, i) =>
+                i === order.items.length - 1
+                  ? item.name + " x" + item.quantity
+                  : item.name + " x" + item.quantity + ", "
+              )}
+            </p>
+            <p className="order-amount">₹{order.amount}.00</p>
+            <p className="order-count">{order.items.length} item{order.items.length > 1 ? "s" : ""}</p>
+            <p className="order-status">
+              <span className={getDotClass(order.status)}></span>
+              {order.status}
+            </p>
+            <button onClick={fetchOrders}>Track Order</button>
+          </div>
+        ))}
       </div>
     </div>
   );
