@@ -138,7 +138,7 @@ const List = ({ url }) => {
             <div className="modal-body">
               <div className="edit-image-section">
                 <img
-                  src={editPreview || (editItem.image.startsWith("http") ? editItem.image : `${url}/uploads/${editItem.image}`)}
+                  src={editPreview || `${url}/images/${editItem.image}`}
                   alt=""
                   className="edit-preview"
                 />
