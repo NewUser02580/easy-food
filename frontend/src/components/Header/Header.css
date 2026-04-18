@@ -1,7 +1,8 @@
 .header {
   width: 100%;
-  min-height: min(38vw, 520px);
-  margin: 28px 0 0;
+  height: calc(100vh - var(--nav-height));
+  min-height: 520px;
+  margin: 0;
   border-radius: var(--radius-lg);
   overflow: hidden;
   position: relative;
@@ -168,7 +169,7 @@
 }
 
 @media (max-width: 760px) {
-  .header { min-height: 56vw; margin: 16px 0 0; }
+  .header { height: 80vw; min-height: 340px; margin: 16px 0 0; }
   .header-contents { padding: 40px 6%; gap: 14px; }
   .header-contents p { display: none; }
   .header-stats { display: none; }

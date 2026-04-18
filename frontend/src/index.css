@@ -29,7 +29,7 @@
   --font-display: 'Playfair Display', Georgia, serif;
   --font-body: 'DM Sans', sans-serif;
 
-  --nav-height: 72px;
+  --nav-height: 80px;
 }
 
 *, *::before, *::after {
