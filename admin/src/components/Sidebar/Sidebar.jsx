@@ -8,22 +8,28 @@ const Sidebar = () => {
     <div className='sidebar'>
       <div className="sidebar-options">
 
-        <NavLink to="/dashboard" className={({isActive}) => isActive ? "sidebar-option active" : "sidebar-option"}>
+        <p className="sidebar-label">Main</p>
+
+        <NavLink to="/dashboard" className={({ isActive }) => isActive ? "sidebar-option active" : "sidebar-option"}>
           <FaHome />
           <p>Dashboard</p>
         </NavLink>
 
-        <NavLink to="/add" className={({isActive}) => isActive ? "sidebar-option active" : "sidebar-option"}>
+        <p className="sidebar-label">Menu</p>
+
+        <NavLink to="/add" className={({ isActive }) => isActive ? "sidebar-option active" : "sidebar-option"}>
           <FaPlus />
           <p>Add Items</p>
         </NavLink>
 
-        <NavLink to="/list" className={({isActive}) => isActive ? "sidebar-option active" : "sidebar-option"}>
+        <NavLink to="/list" className={({ isActive }) => isActive ? "sidebar-option active" : "sidebar-option"}>
           <FaList />
           <p>List Items</p>
         </NavLink>
 
-        <NavLink to="/orders" className={({isActive}) => isActive ? "sidebar-option active" : "sidebar-option"}>
+        <p className="sidebar-label">Operations</p>
+
+        <NavLink to="/orders" className={({ isActive }) => isActive ? "sidebar-option active" : "sidebar-option"}>
           <FaBox />
           <p>Orders</p>
         </NavLink>
