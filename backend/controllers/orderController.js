@@ -1,29 +1,25 @@
-import { response } from "express";
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// placing user order for frontend
 const placeOrder = async (req, res) => {
   const frontend_url = process.env.FRONTEND_URL;
   try {
     const newOrder = new orderModel({
-      userId: req.body.userId,
+      userId: req.userId,
       items: req.body.items,
       amount: req.body.amount,
       address: req.body.address,
     });
     await newOrder.save();
-    await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
+    await userModel.findByIdAndUpdate(req.userId, { cartData: {} });
 
     const line_items = req.body.items.map((item) => ({
       price_data: {
         currency: "inr",
-        product_data: {
-          name: item.name,
-        },
+        product_data: { name: item.name },
         unit_amount: item.price * 100,
       },
       quantity: item.quantity,
@@ -32,9 +28,7 @@ const placeOrder = async (req, res) => {
     line_items.push({
       price_data: {
         currency: "inr",
-        product_data: {
-          name: "Delivery Charges",
-        },
+        product_data: { name: "Delivery Charges" },
         unit_amount: 50 * 100,
       },
       quantity: 1,
@@ -70,10 +64,9 @@ const verifyOrder = async (req, res) => {
   }
 };
 
-// user orders for frontend
 const userOrders = async (req, res) => {
   try {
-    const orders = await orderModel.find({ userId: req.body.userId });
+    const orders = await orderModel.find({ userId: req.userId });
     res.json({ success: true, data: orders });
   } catch (error) {
     console.log(error);
@@ -81,10 +74,9 @@ const userOrders = async (req, res) => {
   }
 };
 
-// Listing orders for admin panel - fetch ALL orders so dashboard revenue is accurate
 const listOrders = async (req, res) => {
   try {
-    const orders = await orderModel.find({});  // ✅ removed Delivered filter
+    const orders = await orderModel.find({});
     res.json({ success: true, data: orders });
   } catch (error) {
     console.log(error);
@@ -92,16 +84,13 @@ const listOrders = async (req, res) => {
   }
 };
 
-// api for updating status
 const updateStatus = async (req, res) => {
   try {
-    let userData = await userModel.findById(req.body.userId);
+    let userData = await userModel.findById(req.userId);
     if (userData && userData.role === "admin") {
       await orderModel.findByIdAndUpdate(
         req.body.orderId,
-        {
-          $set: { status: req.body.status },
-        },
+        { $set: { status: req.body.status } },
         { new: true }
       );
       res.json({ success: true, message: "Status Updated Successfully" });
