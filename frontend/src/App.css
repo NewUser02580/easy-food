@@ -1,9 +1,3 @@
-/* App-level overrides — Vite defaults removed */
-
-.app {
-  width: min(88%, 1260px);
-  margin: 0 auto;
-}
 #root {
   max-width: 1280px;
   margin: 0 auto;
