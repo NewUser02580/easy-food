@@ -1,6 +1,5 @@
 import foodModel from "../models/foodModel.js";
 import userModel from "../models/userModel.js";
-import { cloudinary } from "../config/cloudinary.js";
 
 const addFood = async (req, res) => {
   try {
@@ -11,7 +10,7 @@ const addFood = async (req, res) => {
         description: req.body.description,
         price: req.body.price,
         category: req.body.category,
-        image: req.file.path,
+        image: req.file ? req.file.originalname : "",
       });
       await food.save();
       res.json({ success: true, message: "Food Added" });
@@ -19,8 +18,8 @@ const addFood = async (req, res) => {
       res.json({ success: false, message: "You are not admin" });
     }
   } catch (error) {
-    console.log("addFood error:", JSON.stringify(error), error.message);
-    res.json({ success: false, message: "Error" });
+    console.log("addFood error:", error.message);
+    res.json({ success: false, message: error.message });
   }
 };
 
@@ -30,7 +29,7 @@ const listFood = async (req, res) => {
     res.json({ success: true, data: foods });
   } catch (error) {
     console.log("listFood error:", error.message);
-    res.json({ success: false, message: "Error" });
+    res.json({ success: false, message: error.message });
   }
 };
 
@@ -38,25 +37,20 @@ const removeFood = async (req, res) => {
   try {
     let userData = await userModel.findById(req.userId);
     if (userData && userData.role === "admin") {
-      const food = await foodModel.findById(req.body.id);
-      if (food.image && food.image.includes("cloudinary")) {
-        const parts = food.image.split("/");
-        const publicId = "easyfood/" + parts[parts.length - 1].split(".")[0];
-        await cloudinary.uploader.destroy(publicId);
-      }
       await foodModel.findByIdAndDelete(req.body.id);
       res.json({ success: true, message: "Food Removed" });
     } else {
       res.json({ success: false, message: "You are not admin" });
     }
   } catch (error) {
-    console.log("removeFood error:", JSON.stringify(error), error.message);
-    res.json({ success: false, message: "Error" });
+    console.log("removeFood error:", error.message);
+    res.json({ success: false, message: error.message });
   }
 };
 
 const editFood = async (req, res) => {
   try {
+    console.log("editFood called, userId:", req.userId, "body:", req.body);
     let userData = await userModel.findById(req.userId);
     if (userData && userData.role === "admin") {
       const food = await foodModel.findById(req.body.id);
@@ -69,22 +63,14 @@ const editFood = async (req, res) => {
         price: Number(req.body.price),
         category: req.body.category,
       };
-      if (req.file) {
-        if (food.image && food.image.includes("cloudinary")) {
-          const parts = food.image.split("/");
-          const publicId = "easyfood/" + parts[parts.length - 1].split(".")[0];
-          await cloudinary.uploader.destroy(publicId);
-        }
-        updatedData.image = req.file.path;
-      }
       await foodModel.findByIdAndUpdate(req.body.id, updatedData);
       res.json({ success: true, message: "Food Updated" });
     } else {
       res.json({ success: false, message: "You are not admin" });
     }
   } catch (error) {
-    console.log("editFood error:", JSON.stringify(error), error.message);
-    res.json({ success: false, message: "Error" });
+    console.log("editFood error:", error.message);
+    res.json({ success: false, message: error.message });
   }
 };
 
