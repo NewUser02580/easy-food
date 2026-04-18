@@ -15,7 +15,7 @@ const Navbar = ({ setShowLogin, setSearchQuery }) => {
   const logout = () => {
     localStorage.removeItem("token")
     setToken("")
-    toast.success("Logout Successfully")
+    toast.success("Logged out successfully")
     navigate("/")
   }
 
@@ -34,41 +34,49 @@ const Navbar = ({ setShowLogin, setSearchQuery }) => {
 
   return (
     <div className='navbar'>
-      <Link to='/'><img src={assets.logo} alt="" className="logo" /></Link>
+      <Link to='/'><img src={assets.logo} alt="EasyFood" className="logo" /></Link>
+
       <ul className="navbar-menu">
         <Link to='/' onClick={() => setMenu("Home")} className={menu === "Home" ? "active" : ""}>Home</Link>
         <a href='#explore-menu' onClick={() => setMenu("Menu")} className={menu === "Menu" ? "active" : ""}>Menu</a>
-        <a href='#app-download' onClick={() => setMenu("Mobile-App")} className={menu === "Mobile-App" ? "active" : ""}>Mobile-App</a>
-        <a href='#footer' onClick={() => setMenu("Contact-Us")} className={menu === "Contact-Us" ? "active" : ""}>Contact Us</a>
+        <a href='#app-download' onClick={() => setMenu("Mobile-App")} className={menu === "Mobile-App" ? "active" : ""}>Mobile App</a>
+        <a href='#footer' onClick={() => setMenu("Contact-Us")} className={menu === "Contact-Us" ? "active" : ""}>Contact</a>
       </ul>
+
       <div className="navbar-right">
-        <div className={`navbar-search-wrap ${showSearch ? "open" : ""}`}>
+        <div className="navbar-search-wrap">
           {showSearch && (
             <input
               className="navbar-search-input"
               type="text"
-              placeholder="Search food..."
+              placeholder="Search dishes..."
               value={searchVal}
               onChange={handleSearch}
               autoFocus
             />
           )}
-          <img src={assets.search_icon} alt="" onClick={toggleSearch} className="nav-icon" />
+          <img src={assets.search_icon} alt="Search" onClick={toggleSearch} className="nav-icon" />
         </div>
+
         <div className="navbar-cart-icon">
-          <Link to='/cart'><img src={assets.basket_icon} alt="" className="nav-icon" /></Link>
+          <Link to='/cart'><img src={assets.basket_icon} alt="Cart" className="nav-icon" /></Link>
           <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
         </div>
+
         {!token
           ? <button onClick={() => setShowLogin(true)}>Sign In</button>
           : <div className="navbar-profile">
-            <img src={assets.profile_icon} alt="" className="nav-icon" />
-            <ul className="navbar-profile-dropdown">
-              <li onClick={() => navigate("/myorders")}><img src={assets.bag_icon} alt="" /><p>Orders</p></li>
-              <hr />
-              <li onClick={logout}><img src={assets.logout_icon} alt="" /><p>Logout</p></li>
-            </ul>
-          </div>
+              <img src={assets.profile_icon} alt="Profile" className="nav-icon" />
+              <ul className="navbar-profile-dropdown">
+                <li onClick={() => navigate("/myorders")}>
+                  <img src={assets.bag_icon} alt="" /><p>My Orders</p>
+                </li>
+                <hr />
+                <li onClick={logout}>
+                  <img src={assets.logout_icon} alt="" /><p>Logout</p>
+                </li>
+              </ul>
+            </div>
         }
       </div>
     </div>

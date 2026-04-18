@@ -1,103 +1,139 @@
-.my-orders { margin: 50px 0; }
-
-.my-orders h2 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 24px;
+.my-orders {
+  margin: 50px 0 80px;
 }
 
-.my-orders .container {
+.my-orders-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.my-orders-header h2 {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.4vw, 32px);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.my-orders-header p {
+  font-size: 13px;
+  color: var(--ink-50);
+}
+
+.orders-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .my-orders-order {
   display: grid;
-  grid-template-columns: 56px 1fr auto auto auto auto;
+  grid-template-columns: 64px 1fr auto auto auto auto;
   align-items: center;
   gap: 20px;
-  font-size: 14px;
-  padding: 16px 20px;
-  background: #fff;
-  border: 0.5px solid rgba(0,0,0,0.1);
-  border-radius: 12px;
-  transition: box-shadow 0.2s;
+  padding: 20px 24px;
+  background: var(--white);
+  border: 1px solid rgba(26,15,10,0.08);
+  border-radius: var(--radius-md);
+  transition: box-shadow 0.2s, transform 0.2s;
+  animation: fadeUp 0.4s ease both;
 }
 
 .my-orders-order:hover {
-  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 .my-orders-order img {
-  width: 52px;
-  height: 52px;
+  width: 56px;
+  height: 56px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
 }
 
-.my-orders-order > p {
-  color: #374151;
+.order-items-text {
   font-size: 13px;
-  line-height: 1.5;
+  color: var(--ink-80);
+  line-height: 1.6;
+  font-weight: 400;
 }
 
-.my-orders-order .order-amount {
-  font-size: 15px;
-  font-weight: 600;
-  color: #1a1a1a;
+.order-amount {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
   white-space: nowrap;
 }
 
-.my-orders-order .order-count {
-  font-size: 13px;
-  color: #9ca3af;
+.order-count {
+  font-size: 12px;
+  color: var(--ink-50);
+  background: var(--ink-05);
+  padding: 4px 10px;
+  border-radius: 20px;
   white-space: nowrap;
 }
 
-.my-orders-order .order-status {
+.order-status {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
 }
 
-.my-orders-order .order-status .dot {
+.status-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #f97316;
   flex-shrink: 0;
 }
 
-.my-orders-order .dot-delivered { background: #10b981; }
-.my-orders-order .dot-processing { background: #f59e0b; }
-.my-orders-order .dot-out { background: #3b82f6; }
+.status-dot.processing { background: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,0.2); }
+.status-dot.out        { background: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.2); }
+.status-dot.delivered  { background: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,0.2); }
 
-.my-orders-order button {
-  border: 0.5px solid rgba(0,0,0,0.15);
-  padding: 8px 16px;
-  border-radius: 8px;
-  background: #fff;
+.track-btn {
+  border: 1.5px solid var(--ink-20);
+  padding: 8px 18px;
+  border-radius: var(--radius-xl);
+  background: var(--white);
   cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
-  color: #374151;
-  transition: background 0.2s;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-80);
+  letter-spacing: 0.03em;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
   white-space: nowrap;
-  font-family: inherit;
 }
 
-.my-orders-order button:hover { background: #f5f5f3; }
+.track-btn:hover {
+  background: var(--brand-soft);
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+/* Empty */
+.orders-empty {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--ink-50);
+}
+.orders-empty-icon { font-size: 52px; margin-bottom: 16px; }
+.orders-empty h3 { font-size: 20px; color: var(--ink); margin-bottom: 8px; }
 
 @media (max-width: 900px) {
   .my-orders-order {
-    grid-template-columns: 48px 1fr 1fr;
-    row-gap: 8px;
-    font-size: 12px;
+    grid-template-columns: 52px 1fr 1fr;
+    row-gap: 10px;
   }
-  .my-orders-order button { font-size: 11px; padding: 6px 12px; }
+  .my-orders-order img { width: 48px; height: 48px; }
+  .order-count { display: none; }
+  .track-btn { padding: 6px 14px; font-size: 11px; }
 }
