@@ -1,8 +1,6 @@
-import cloudinaryV2 from "cloudinary";
-import multer from "multer";
+import { v2 as cloudinary } from "cloudinary";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
-
-const cloudinary = cloudinaryV2.v2;
+import multer from "multer";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -12,13 +10,11 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: async (req, file) => {
-    return {
-      folder: "easyfood",
-      format: "jpg",
-      public_id: Date.now() + "-" + file.originalname.split(".")[0],
-    };
-  },
+  params: async (req, file) => ({
+    folder: "easyfood",
+    format: "jpg",
+    public_id: Date.now() + "-" + file.originalname.split(".")[0],
+  }),
 });
 
 const upload = multer({ storage });
