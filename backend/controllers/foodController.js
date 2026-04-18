@@ -3,7 +3,6 @@ import userModel from "../models/userModel.js";
 import fs from "fs";
 
 // add food items
-
 const addFood = async (req, res) => {
   let image_filename = `${req.file.filename}`;
   const food = new foodModel({
@@ -56,4 +55,38 @@ const removeFood = async (req, res) => {
   }
 };
 
-export { addFood, listFood, removeFood };
+// ✅ edit food item
+const editFood = async (req, res) => {
+  try {
+    let userData = await userModel.findById(req.body.userId);
+    if (userData && userData.role === "admin") {
+      const food = await foodModel.findById(req.body.id);
+      if (!food) {
+        return res.json({ success: false, message: "Food not found" });
+      }
+
+      const updatedData = {
+        name: req.body.name,
+        description: req.body.description,
+        price: req.body.price,
+        category: req.body.category,
+      };
+
+      // if new image uploaded, replace old one
+      if (req.file) {
+        fs.unlink(`uploads/${food.image}`, () => {});
+        updatedData.image = req.file.filename;
+      }
+
+      await foodModel.findByIdAndUpdate(req.body.id, updatedData);
+      res.json({ success: true, message: "Food Updated" });
+    } else {
+      res.json({ success: false, message: "You are not admin" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: "Error" });
+  }
+};
+
+export { addFood, listFood, removeFood, editFood };
