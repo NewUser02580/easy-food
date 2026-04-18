@@ -1,25 +1,92 @@
-.list-table-format{
-    display: grid;
-    grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 0.5fr;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 15px;
-    border: 1px solid #cacaca;
-    font-size: 13px;
-}
-.list-table-format.title{
-    background-color: #f9f9f9;
-}
-.list-table-format img{
-    width: 50px;
+.list {
+  padding: 1.5rem 2rem;
 }
 
-@media (max-width:600px) {
-    .list-table-format{
-        grid-template-columns: 1fr 3fr 1fr;
-        gap: 15px;
-    }
-    .list-table-format.title{
-        display: none;
-    }
+.list p:first-child {
+  font-size: 22px;
+  font-weight: 500;
+  margin: 0 0 1.5rem;
+  color: #1a1a1a;
+}
+
+.list-table {
+  border: 0.5px solid rgba(0,0,0,0.12);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.list-table-format {
+  display: grid;
+  grid-template-columns: 80px 2fr 1fr 1fr 80px;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 0.5px solid rgba(0,0,0,0.08);
+  gap: 12px;
+}
+
+.list-table-format:last-child {
+  border-bottom: none;
+}
+
+.list-table-format.title {
+  background: #f5f5f3;
+  padding: 10px 16px;
+}
+
+.list-table-format.title b {
+  font-size: 13px;
+  font-weight: 500;
+  color: #888;
+}
+
+.list-table-format img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.list-table-format p {
+  font-size: 14px;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.list-table-format .cursor {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fee2e2;
+  color: #dc2626;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.list-table-format .cursor:hover {
+  background: #fca5a5;
+}
+
+@media (max-width: 600px) {
+  .list {
+    padding: 1rem;
+  }
+
+  .list-table-format {
+    grid-template-columns: 60px 2fr 1fr 60px;
+    gap: 8px;
+  }
+
+  .list-table-format .category-col {
+    display: none;
+  }
+
+  .list-table-format.title {
+    display: none;
+  }
 }
