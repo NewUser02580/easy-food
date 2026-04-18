@@ -36,3 +36,12 @@ hr{
 .cursor{
   cursor: pointer;
 }
+
+.app-content {
+  display: flex;
+}
+
+.app-content > *:nth-child(2) {
+  flex: 1;
+  padding: 20px 40px;
+}
