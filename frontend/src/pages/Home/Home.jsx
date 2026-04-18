@@ -10,9 +10,16 @@ const Home = ({ searchQuery }) => {
 
   return (
     <div className="home">
+      {/* Full-width hero */}
       <Header />
-      <ExploreMenu category={category} setCategory={setCategory} />
-      <FoodDisplay category={category} searchQuery={searchQuery} />
+
+      {/* Centered page content */}
+      <div className="home-content">
+        <ExploreMenu category={category} setCategory={setCategory} />
+        <FoodDisplay category={category} searchQuery={searchQuery} />
+      </div>
+
+      {/* Full-width app download banner */}
       <AppDownload />
     </div>
   )

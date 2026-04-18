@@ -58,7 +58,13 @@ button, input, select, textarea {
 }
 
 .app {
-  width: min(88%, 1260px);
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Centered content wrapper used inside pages */
+.page-content {
+  width: min(90%, 1280px);
   margin: 0 auto;
 }
 

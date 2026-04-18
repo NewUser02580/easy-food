@@ -20,8 +20,12 @@ const App = () => {
     <>
       {showLogin && <LoginPopup setShowLogin={setShowLogin} />}
       <ToastContainer position="top-right" autoClose={2500} />
+
+      {/* Navbar — full width */}
+      <Navbar setShowLogin={setShowLogin} setSearchQuery={setSearchQuery} />
+
+      {/* Page content */}
       <div className='app'>
-        <Navbar setShowLogin={setShowLogin} setSearchQuery={setSearchQuery} />
         <Routes>
           <Route path='/'          element={<Home searchQuery={searchQuery} />} />
           <Route path='/cart'      element={<Cart />} />
@@ -30,6 +34,8 @@ const App = () => {
           <Route path='/myorders'  element={<MyOrders />} />
         </Routes>
       </div>
+
+      {/* Footer — full width */}
       <Footer />
     </>
   )

@@ -1,21 +1,24 @@
 .navbar {
   position: relative;
   z-index: 200;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
   height: var(--nav-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  background: rgba(253, 250, 248, 0.88);
+  background: rgba(253, 250, 248, 0.95);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid rgba(26, 15, 10, 0.07);
-  padding: 0 min(5vw, 64px);
+  padding: 0 min(6vw, 80px);
   animation: fadeIn 0.5s ease;
 }
 
 /* Logo */
-.navbar .logo { width: 140px; flex-shrink: 0; }
+.navbar .logo { width: 180px; flex-shrink: 0; }
 
 /* Nav links */
 .navbar-menu {
@@ -174,7 +177,7 @@
     height: 64px;
   }
   .navbar-menu { gap: 20px; font-size: 13px; }
-  .navbar .logo { width: 110px; }
+  .navbar .logo { width: 150px; }
   .navbar button { padding: 8px 18px; font-size: 12px; }
 }
 
@@ -186,7 +189,7 @@
   }
   .navbar-menu { display: none; }
   .navbar-search-input { width: 140px; font-size: 12px; }
-  .navbar .logo { width: 100px; }
+  .navbar .logo { width: 140px; }
 }
 
 /* ── Small Mobile (≤ 480px) ── */

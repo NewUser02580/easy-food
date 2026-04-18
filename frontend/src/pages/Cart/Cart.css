@@ -1,4 +1,9 @@
-.cart { margin-top: 60px; padding-bottom: 80px; }
+.cart {
+  width: min(90%, 1280px);
+  margin: 0 auto;
+  margin-top: 60px;
+  padding-bottom: 80px;
+}
 
 .cart-title {
   font-family: var(--font-display);
