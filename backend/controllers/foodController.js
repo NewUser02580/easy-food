@@ -19,7 +19,7 @@ const addFood = async (req, res) => {
       res.json({ success: false, message: "You are not admin" });
     }
   } catch (error) {
-    console.log(error);
+    console.log("addFood error:", JSON.stringify(error), error.message);
     res.json({ success: false, message: "Error" });
   }
 };
@@ -29,7 +29,7 @@ const listFood = async (req, res) => {
     const foods = await foodModel.find({});
     res.json({ success: true, data: foods });
   } catch (error) {
-    console.log(error);
+    console.log("listFood error:", error.message);
     res.json({ success: false, message: "Error" });
   }
 };
@@ -50,7 +50,7 @@ const removeFood = async (req, res) => {
       res.json({ success: false, message: "You are not admin" });
     }
   } catch (error) {
-    console.log(error);
+    console.log("removeFood error:", JSON.stringify(error), error.message);
     res.json({ success: false, message: "Error" });
   }
 };
@@ -83,7 +83,7 @@ const editFood = async (req, res) => {
       res.json({ success: false, message: "You are not admin" });
     }
   } catch (error) {
-    console.log("editFood error:", error);
+    console.log("editFood error:", JSON.stringify(error), error.message);
     res.json({ success: false, message: "Error" });
   }
 };
