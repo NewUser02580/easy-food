@@ -1,30 +1,27 @@
 import foodModel from "../models/foodModel.js";
 import userModel from "../models/userModel.js";
-import fs from "fs";
 
 const addFood = async (req, res) => {
-  let image_filename = `${req.file.filename}`;
-  const food = new foodModel({
-    name: req.body.name,
-    description: req.body.description,
-    price: req.body.price,
-    category: req.body.category,
-    image: image_filename,
-  });
   try {
-    let userData = await userModel.findById(req.body.userId);
+    let userData = await userModel.findById(req.userId);
     if (userData && userData.role === "admin") {
+      const food = new foodModel({
+        name: req.body.name,
+        description: req.body.description,
+        price: req.body.price,
+        category: req.body.category,
+        image: image_filename,
+      });
       await food.save();
       res.json({ success: true, message: "Food Added" });
     } else {
       res.json({ success: false, message: "You are not admin" });
     }
   } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: "Error" });
+    console.log("addFood error:", error.message);
+    res.json({ success: false, message: error.message });
   }
 };
-
 
 const listFood = async (req, res) => {
   try {
