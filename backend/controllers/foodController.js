@@ -3,7 +3,7 @@ import userModel from "../models/userModel.js";
 import fs from "fs";
 
 const addFood = async (req, res) => {
-  let image_filename = `${req.file.filename}`;
+  let image_filename = `/uploads/${req.file.filename}`;
   const food = new foodModel({
     name: req.body.name,
     description: req.body.description,
@@ -68,7 +68,7 @@ const editFood = async (req, res) => {
       };
       if (req.file) {
         fs.unlink(`uploads/${food.image}`, () => {});
-        updatedData.image = req.file.filename;
+        updatedData.image = `/uploads/${req.file.filename}`;
       }
       await foodModel.findByIdAndUpdate(req.body.id, updatedData);
       res.json({ success: true, message: "Food Updated" });
