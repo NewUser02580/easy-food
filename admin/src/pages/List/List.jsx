@@ -7,8 +7,8 @@ import { StoreContext } from "../../context/StoreContext";
 import { useNavigate } from "react-router-dom";
 
 const categories = [
-  "Pizza","Salad", "Rolls", "Deserts", "Sandwich",
-  "Cake", "Pure Veg", "Pasta", "Noodles",
+  "Pizza","Punjabi", "Pasta", "Sandwich", "Rolls",
+  "Guj. Dish", "Deserts", "Mexican", "Salad",
 ];
 
 const List = ({ url }) => {
